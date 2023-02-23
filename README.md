@@ -1,5 +1,7 @@
 # Aptitude Test
 
+Due to the short of time I cannot finish everything, include Model parameter adjustment, image accuracy and feature adjustment; safe API structure design; Docker Image error correction; CI/CD setting parameters. Additional API security constructs include functions to prevent injection attacks, functions to prevent cross-site scripting attacks, and more.
+
 ## 1.	Build a classification model ##
 
 The image classification algorithm uses PyTorch to define a neural network to process three-channel images. Use the torchvision package to preprocess image files. The training set and test set are classified in the traditional way 7:3, loaded and normalized by torchvision. Define the convolutional neural network and loss function based on the image-processed data, and train and test the network on this basis.
@@ -111,4 +113,31 @@ One of the possible reasons for the problem with the Image command is that the t
 
 ## 4.	Implement CI/CD 
 
+Continuous Integration and Continuous Delivery/Deployment are completed using Github's Action and Shell script Release.sh.
 
+In the case of using script deployment, change the server address and path to the corresponding address path. Place the script on the server, and only need to execute the script to deploy it. Automatic deployment can be achieved by changing the contents of `package.json`:
+
+```
+{
+   "scripts": {
+     "release": "sh scripts/release.sh"
+   },
+}
+```
+The Github Action method does not need to execute `npm run release` to complete the deployment. By setting the conditions of Github Action and detecting specific activities in its own repository, the deployment can be automatically triggered.
+
+In my CI/CD, I uploaded the shell script and set the release.yml file in the workflow. Due to time constraints I was unable to test the system.
+
+In addition to the release set by yourself, optional actions include searching for actions from other people in the Github marketplace. Using and changing other people's actions according to the agreement can save a lot of time.
+
+## Large files link 
+
+https://drive.google.com/drive/folders/1G8B3Einrb7FY9MEbwqhZT0_kCBXohD8M?usp=sharing
+
+Provided Model：Model.pth， 75% Accuracy for all test set.
+transform Compose
+```
+transforms.Compose(
+    [transforms.ToTensor(),
+     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),transforms.Resize([512, 512])])
+```
